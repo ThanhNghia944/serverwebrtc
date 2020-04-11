@@ -9,26 +9,57 @@
      <input id="login" value="userA">
      <button onclick="user_login();">Enter Username</button>
    </div>
+
+   <video id='localStream'  width='300' controls ></video>
+
      <div id="callerIDContainer">
           <input id="callerID" value="userA">
           <button onclick="call_user();">Call User</button>
      </div>
     </body>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="/dist/public/bundle.js"></script>
+
     <script>
+
+      /**
+       * New Media Moliza
+       **/
+
+       navigator.mediaDevices.getUserMedia({
+         audio:false,
+         video:true
+       }).then(res => {
+         console.log('Stream ' ,res)
+         playVideo(res,'localStream')
+       }).catch(err => {
+         console.log('Error ' ,err)
+       })
+       function playVideo(stream,idVideo){
+        let video = document.getElementById(idVideo);
+          video.srcObject = stream;
+          video.onloadedmetadata = (element) =>{
+              video.play()
+          }
+
+       }
+
+       /**
+        *  End
+        * */
       var socket = io();
         let username;
         let busy = false;
         var incallwith = "";
 
-    function user_login(){
-            var login = document.getElementById('login').value;
-            username = login;
-      socket.send({
-                     type: "login",
-                     name: username
-                 })
-    }
+      function user_login(){
+              var login = document.getElementById('login').value;
+              username = login;
+        socket.send({
+                      type: "login",
+                      name: username
+                  })
+      }
         function call_user(){
             var callerID = document.getElementById('callerID').value;
           if (callerID == "") {

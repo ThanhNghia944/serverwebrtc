@@ -10,11 +10,13 @@ var users = {};
 function sendTo(connection, message) {
    connection.send(message);
 }
+app.use(express.static(__dirname + '/'));
 
 app.get('/', function(req, res){
   console.log('get /');
   res.sendFile(__dirname + '/index.html');
 });
+
 
 io.on('connection', function(socket){
   console.log("user connected");
