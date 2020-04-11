@@ -18,10 +18,10 @@
    <br></br>
    <button id='btnConnect' >Connect</button>
 
+   <br></br>
+   <video id='localStreamAnswer'  width='300' controls ></video>
 
 
-
-   
    <br></br>
      <div id="callerIDContainer">
           <input id="callerID" value="userA">
@@ -34,31 +34,8 @@
 
     <script>
 
-      /**
-       * New Media Moliza
-       **/
 
-      //  navigator.mediaDevices.getUserMedia({
-      //    audio:false,
-      //    video:true
-      //  }).then(res => {
-      //    console.log('Stream ' ,res)
-      //    playVideo(res,'localStream')
-      //  }).catch(err => {
-      //    console.log('Error ' ,err)
-      //  })
-       function playVideo(stream,idVideo){
-        let video = document.getElementById(idVideo);
-          video.srcObject = stream;
-          video.onloadedmetadata = (element) =>{
-              video.play()
-          }
-
-       }
-
-       /**
-        *  End
-        * */
+      
       var socket = io();
         let username;
         let busy = false;
