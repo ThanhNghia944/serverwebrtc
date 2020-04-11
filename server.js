@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var open = require('open');
-var serverPort = (4443);
+var serverPort = (3000);
 var http = require('http');
 var server = http.createServer(app);
 var io = require('socket.io')(server);
@@ -112,6 +112,9 @@ io.on('connection', function(socket){
   })
 })
 
-server.listen( process.env.PORT ||  serverPort, function(){
-   console.log('server up and running at %s port', serverPort);
+// server.listen( process.env.PORT ||  serverPort, function(){
+//    console.log('server up and running at %s port', serverPort);
+//  });
+ app.listen(process.env.PORT || 3000, function(){
+   console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
  });
