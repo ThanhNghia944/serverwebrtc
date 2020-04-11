@@ -9,13 +9,25 @@
      <input id="login" value="userA">
      <button onclick="user_login();">Enter Username</button>
    </div>
-
+   <br></br>
    <video id='localStream'  width='300' controls ></video>
+   <br></br>
+   <textarea rows="3" cols="100" id='txtMySignal' ></textarea>
+   <br></br>
+   <input type="text"  placeholder="Your Signal" id='inputYourSignal' />
+   <br></br>
+   <button id='btnConnect' >Connect</button>
 
+
+
+
+   
+   <br></br>
      <div id="callerIDContainer">
           <input id="callerID" value="userA">
           <button onclick="call_user();">Call User</button>
      </div>
+     <br></br>
     </body>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/dist/public/bundle.js"></script>
@@ -26,15 +38,15 @@
        * New Media Moliza
        **/
 
-       navigator.mediaDevices.getUserMedia({
-         audio:false,
-         video:true
-       }).then(res => {
-         console.log('Stream ' ,res)
-         playVideo(res,'localStream')
-       }).catch(err => {
-         console.log('Error ' ,err)
-       })
+      //  navigator.mediaDevices.getUserMedia({
+      //    audio:false,
+      //    video:true
+      //  }).then(res => {
+      //    console.log('Stream ' ,res)
+      //    playVideo(res,'localStream')
+      //  }).catch(err => {
+      //    console.log('Error ' ,err)
+      //  })
        function playVideo(stream,idVideo){
         let video = document.getElementById(idVideo);
           video.srcObject = stream;

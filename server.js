@@ -10,7 +10,7 @@ var users = {};
 function sendTo(connection, message) {
    connection.send(message);
 }
-app.use(express.static(__dirname + '/'));
+app.use(express.static(__dirname + '/')); //add public static file ( cho client )
 
 app.get('/', function(req, res){
   console.log('get /');
