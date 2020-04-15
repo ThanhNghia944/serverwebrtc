@@ -1,72 +1,47 @@
-console.log('Hello ')
-var $ = require('jquery')
-var Peer = require('simple-peer');
-let p = {};
-/**
-    * New Media Moliza
-**/
-function playVideoStream (stream,idVideo ){
-   console.log('Play VIDEO')
-    let video = $('video' + idVideo)[0]
-      video.srcObject = stream;
-      video.onloadedmetadata = (element) =>{
-          video.play()
-      }
+const Peer = require('peerjs');
+const uid = require('uid');
+const $ = require('jquery');
+const openStream = require('./openStream');
+const playVideo = require('./playVideo');
+// const getIceObject = require('./getIceObject');
+
+// getIceObject(iceConfig => {
+    const connectionObj = {
+        host: '9000-a3f10ba9-25e4-447e-af24-103f293291ba.ws-us02.gitpod.io',
+        port: 443,//port mac dinh 443 ( 9000 err)
+        secure: true,
+        // path:'/'
+        // key: 'myapp',
+        // config: iceConfig
+    };
+
+    const peer = new Peer(getPeer(), connectionObj);
+
+    $('#btnCall').click(() => {
+        const friendId = $('#txtFriendId').val();
+        openStream(stream => {
+            playVideo(stream, 'localStream');
+            const call = peer.call(friendId, stream);
+            call.on('stream', remoteStream => playVideo(remoteStream, 'friendStream'))
+        });
+    });
+
+    peer.on('call', call => {
+        openStream(stream => {
+            playVideo(stream, 'localStream');
+            call.answer(stream);
+            call.on('stream', remoteStream => playVideo(remoteStream, 'friendStream'));
+        });
+    });
+
+// });
+
+function getPeer() {
+    const id = uid(10);
+    $('#peer-id').append(id);
+    return id;
 }
-function openStream() {
-      navigator.mediaDevices.getUserMedia({
-         audio:false,
-         video:true
-       }).then(res => {
-         console.log('Stream ' ,res)
-         playVideoStream(res , '#localStream'); // mo video nguoi goi
-          p = new Peer({
-              initiator: location.hash === '#1',
-              trickle: false, // ko dung server ben ngoai,
-              stream:res
-          })
-          p.on('error', err => console.log('error Peer', err))
-          p.on('signal', data => {
-              $('#txtMySignal').val( JSON.stringify(data) )
-              console.log('SIGNAL TOKEN', JSON.stringify(data))
-          })
-          p.on('stream', (stream) => {
-             console.log('DATA STREAM ' );
-             //play video stream may answer
-            playVideoStream(stream , '#localStreamAnswer');// gui du lieu stream va mo video  cho nguoi nhan
-          })
-          $('#btnConnect').click( () => {
-            const yourDataSignal = JSON.parse($('#inputYourSignal').val() );
-            console.log('CLICK CONNECT ' );
-            p.signal(yourDataSignal);
-          })
-       }).catch(err => {
-         console.log('Error ' ,err)
-       })
-}
- /**
-  *   End
-* */
 
-openStream();
-
-
-
-
-// // p.on('connect', () => {
-// //     console.log('CONNECTED')
-// //     p.send('whatever' + Math.random())
-// // })
-
-// // p.on('data', (data) => {
-// //     console.log('DATA RECEIVE ' , data)
-// // })
-
-
-
-// /**
-//  * Component ,use Jquery
-//  */
 
 
 

@@ -4,15 +4,20 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start" : "node server.js"
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.15.3",
+    "jquery": "^3.2.1",
     "open": "0.0.5",
+    "peerjs": "^0.3.14",
     "simple-peer": "9.6.2",
     "socket.io": "^2.0.3",
+    "socket.io-client": "2.3.0",
+    "uid": "^0.0.2",
+    "uuid": "^7.0.3",
     "webpack": "4.42.1"
   },
   "devDependencies": {
