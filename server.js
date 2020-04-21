@@ -5,6 +5,7 @@ var serverPort = 4443;
 var http = require("http");
 var server = http.createServer(app);
 var io = require("socket.io")(server);
+const pushApn = require('./apn/index');
 
 var sockets = {};
 var users = {};
@@ -13,6 +14,12 @@ function sendTo(connection, message) {
   connection.send(message);
 }
 app.use(express.static(__dirname + "/")); //add public static file ( cho client )
+
+app.get("/push-apn/:token",async function(req, res) {
+    const token = req.params.token;
+    const response = await pushApn(token);
+    res.json(response)
+});
 
 app.get("/", function(req, res) {
   res.sendFile(__dirname + "/index.html");
