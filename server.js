@@ -28,14 +28,40 @@ app.get("/", function(req, res) {
 const arrayPeerId = [];
 
 io.on("connection", function(socket) {
-  console.log("user connected");
+
+  socket.on("call-user", (data) => {
+    if(sockets[data.to]){
+      console.log('Call user from user ',data.to );
+      sockets[data.to].emit("call-made", {
+        from: data.to ,
+        to: data.from
+      });
+    }
+
+  });
+
+  socket.on("make-answer", data => {
+    if(sockets[data.to]){
+      if(data.isAccept ){
+        sockets[data.to].emit("accept-answer", {
+          from : data.from,
+        });
+      }else{
+        sockets[data.to].emit("reject-answer", {
+          from : data.from,
+        });
+      }
+    }
+  });
 
   socket.on('NEW_PEER_ID',peerId => {
       socket.peerId = peerId;
+      sockets[peerId] = socket;
       arrayPeerId.push(peerId);
       console.log("New client connect : ", peerId);
       io.emit('NEW_CLIENT_CONNECT',peerId)
   });
+
   //gui danh sach online hien tai
   socket.emit('ONLINE_PEER_ARRAY',arrayPeerId);
 
