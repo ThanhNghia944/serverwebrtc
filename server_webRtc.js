@@ -17,7 +17,7 @@ app.use(express.static(__dirname + "/")); //add public static file ( cho client 
 
 app.get("/push-apn/:token",async function(req, res) {
     const token = req.params.token;
-    const response = await pushApn(token,req.query);
+    const response = await pushApn(token);
     res.json(response)
 });
 
@@ -28,30 +28,31 @@ app.get("/", function(req, res) {
 const arrayPeerId = [];
 
 io.on("connection", function(socket) {
+  console.log("user connected");
 
   socket.on("call-user", (data) => {
     if(sockets[data.to]){
-      console.log('Call user from user ',data.to );
+      console.log('ok call-user')
+      console.log('socket.id',socket.peerId );
       sockets[data.to].emit("call-made", {
-        from: data.to ,
-        to: data.from
+        offer: data.offer,
+        socket: data.from,
+        from: data.to
       });
     }
+    
 
   });
 
   socket.on("make-answer", data => {
+    console.log('DATA make-answer')
     if(sockets[data.to]){
-      if(data.isAccept ){
-        sockets[data.to].emit("accept-answer", {
-          from : data.from,
-        });
-      }else{
-        sockets[data.to].emit("reject-answer", {
-          from : data.from,
-        });
-      }
+      sockets[data.to].emit("answer-made", {
+        socket: data.from,
+        answer: data.answer
+      });
     }
+
   });
 
   socket.on('NEW_PEER_ID',peerId => {

@@ -26,15 +26,18 @@ socket.emit("NEW_PEER_ID", peerId);
 const peer = new Peer(peerId, connectionObj);
 $("#btnCall").click(() => {
   const friendId = $("#txtFriendId").val();
-  openStream(stream => {
-    fetch(
-      `http://192.168.0.251:4443/push-apn/527b5f73d680efeedb62964b4cbdd9e662b64f9ae2a05ba4a473db6200097ded`
-    );
 
-    playVideo(stream, "localStream");
-    const call = peer.call(friendId, stream);
-    call.on("stream", remoteStream => playVideo(remoteStream, "friendStream"));
-  });
+    /**
+   * web
+   */
+  // socket.emit("call-user", {
+  //  to: friendId,
+  //  from: peerId
+  // });
+
+
+  fetch(`http://192.168.1.105:4443/push-apn/527b5f73d680efeedb62964b4cbdd9e662b64f9ae2a05ba4a473db6200097ded?from=` + peerId + '&to=' + friendId);
+
 });
 
 peer.on("call", call => {
@@ -53,10 +56,25 @@ function getPeer() {
 
 $(`#ulPeerId`).on("click", "li", function() {
   const friendId = $(this).text();
-  socket.emit("call-user", {
-    to: friendId,
-    from: peerId
-  });
+
+  /**
+   * web
+   */
+  //socket.emit("call-user", {
+   // to: friendId,
+  //  from: peerId
+ // });
+
+ /**
+  * mobile
+  */
+ fetch(`http://192.168.1.105:4443/push-apn/527b5f73d680efeedb62964b4cbdd9e662b64f9ae2a05ba4a473db6200097ded?from=` + peerId + '&to=' + friendId);
+
+
+
+ /**
+  * demo cu
+  */
   // openStream(stream => {
   //     // fetch(`http://192.168.0.251:4443/push-apn/527b5f73d680efeedb62964b4cbdd9e662b64f9ae2a05ba4a473db6200097ded`);
   //     playVideo(stream, 'localStream');
@@ -65,6 +83,8 @@ $(`#ulPeerId`).on("click", "li", function() {
   //     console.log('11')
   //     call.on('stream', remoteStream => playVideo(remoteStream, 'friendStream'))
   // });
+
+
 });
 /**
  * socket

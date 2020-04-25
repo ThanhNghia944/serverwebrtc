@@ -16,21 +16,25 @@ var options = {
   };
   let apnProvider = new apn.Provider(options);
 
-const pushApn = (deviceToken) => {
+const pushApn = (deviceToken,query) => {
 
+  console.log('qqqqqqueryfrom',query.from)
   let note = new apn.Notification();
   note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
   note.badge = 1;
   // note.priority= 5;
   // note.pushType = 'voip'
   // note.voip = true;
-  note.alert = "You have 111 new call";
+  note.alert = "You have  new call";
   note.payload = {
-     messageFrom: "John Appleseed",
      uuid:"0731961b-415b-44f3-a960-dd94ef3372fc",
      callerName:"Nguyen Thanh Nghia",
      handle:"testemail@email.com",
-     extraPayLoad:"John Appleseed ID",
+     extraPayLoad:"ssss",
+     extraPayLoad:{
+       from: query.from,
+       to: query.to,
+     },
      isVideo:true,
      };
   note.topic = "com.demo.practice.webrtc.voip";

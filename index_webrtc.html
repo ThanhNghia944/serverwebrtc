@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Web Client WebRTC</title>
+    </head>
+    <body>
+        <h3 id="peer-id">My peer id: </h3>
+        <video id="localStream" width="300" controls></video>
+        <br /><br />
+        <video id="friendStreamUp" width="300" controls></video>
+        <br /><br />
+        <input height="48" type="text" placeholder="Your friend's peer id" id="txtFriendId">
+        <br /><br />
+        <button  id="btnCall">Call</button>
+        <br /><br />
+        <h3 id="peer-id">Select User To Call </h3>
+        <ul id='ulPeerId'>
+
+        </ul>
+    </body>
+    <script src="dist/bundle.js"></script>
+    <script src="socket.io/socket.io.js"></script>
+
+    <style type="text/css">
+        #btnCall {
+          height: 40px;
+          width: 80px;
+          justify-content: center;
+          align-items: center;
+          color:black
+        }
+        #txtFriendId{
+            height: 30px;
+            padding-left: 10px;
+            padding-right: 10px;
+            color: black
+        }
+    </style>
+
+</html>
