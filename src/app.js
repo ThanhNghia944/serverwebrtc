@@ -48,7 +48,7 @@ $(`#ulPeerId`).on("click", "li", function() {
   /**
    * mobile
    */
-   fetch(`http://192.168.1.105:4443/push-apn/527b5f73d680efeedb62964b4cbdd9e662b64f9ae2a05ba4a473db6200097ded?from=` + peerId + '&to=' + friendId);
+   fetch(`http://localhost:4443/push-apn/527b5f73d680efeedb62964b4cbdd9e662b64f9ae2a05ba4a473db6200097ded?from=` + peerId + '&to=' + friendId);
 });
 /**
  * socket
