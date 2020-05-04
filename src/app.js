@@ -43,16 +43,12 @@ $(`#ulPeerId`).on("click", "li", function() {
   /**
    * web
    */
-  //socket.emit("call-user", {
-  // to: friendId,
-  //  from: peerId
-  // });
-  _utilVideoCall.callByUsername(videocallIntance, friendId);
+  // _utilVideoCall.callByUsername(videocallIntance, friendId);
 
   /**
    * mobile
    */
-  //  fetch(`http://192.168.1.10:4443/push-apn/527b5f73d680efeedb62964b4cbdd9e662b64f9ae2a05ba4a473db6200097ded?from=` + peerId + '&to=' + friendId);
+   fetch(`http://192.168.1.105:4443/push-apn/527b5f73d680efeedb62964b4cbdd9e662b64f9ae2a05ba4a473db6200097ded?from=` + peerId + '&to=' + friendId);
 });
 /**
  * socket
@@ -89,6 +85,7 @@ socket.on("reject-answer", async data => {
 });
 socket.on("accept-answer", async data => {
   try {
+    console.log('DATA answer',data)
     _utilVideoCall.callByUsername(videocallIntance, data.from);
   } catch (e) {
     console.log("10001", e);
